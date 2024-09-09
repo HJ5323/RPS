@@ -77,18 +77,6 @@
     <Image Include="res\MFCApplication13.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="res\bitmap1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="paper.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="rock.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="scissors.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="PAPER.bmp">
       <Filter>Resource Files</Filter>
     </Image>

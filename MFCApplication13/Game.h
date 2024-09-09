@@ -39,11 +39,10 @@ public:
 	CStatic m_round_result;  // 각 라운드의 결과 표시
 	CStatic m_player1_result;  // Player1의 결과 표시
 	CStatic m_player2_result;  // Player2의 결과 표시
+	CString m_winnerText;  // winner 저장할 멤버 변수
 	UINT_PTR m_nTimerID;  // 타이머 ID
 
 	void CheckWinner();
 	HBITMAP LoadBitmapResource(UINT resourceID);  // 비트맵 로드
-	//HBITMAP GetResultImage(int result);  // 결과에 따른 이미지를 반환하는 함수
-	CString GetResultText(int result);  // 가위바위보 결과 텍스트
-//	afx_msg void OnStnClickedPlayer2Result();
+	void ScaleAndSetBitmap(CStatic& control, HBITMAP hBitmap);  // 비트맵 컨트롤 크기에 맞추는 함수
 };

@@ -40,7 +40,6 @@ void Game::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(Game, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &Game::OnBnClickedButton1)
     ON_WM_TIMER()
-//    ON_STN_CLICKED(IDC_PLAYER2_RESULT, &Game::OnStnClickedPlayer2Result)
 END_MESSAGE_MAP()
 
 
@@ -69,7 +68,7 @@ BOOL Game::OnInitDialog()
     // 타이머는 설정하지 않은 상태
     m_nTimerID = 0;
 
-
+    srand(static_cast<unsigned int>(time(nullptr)));
 
     return TRUE;  // return TRUE unless you set the focus to a control
 }
@@ -117,23 +116,15 @@ void Game::OnTimer(UINT_PTR nIDEvent)
 
             // Player 1과 Player 2의 이미지 설정
             HBITMAP hPlayer1Image = LoadBitmapResource(player1_result == 0 ? IDB_SCISSORS : player1_result == 1 ? IDB_ROCK : IDB_PAPER);
-            if (hPlayer1Image)
-            {
-                HBITMAP hOldBitmap = (HBITMAP)m_player1_result.SendMessage(STM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hPlayer1Image);
-                if (hOldBitmap)
-                {
-                    DeleteObject(hOldBitmap);  // 이전 비트맵 핸들 해제
-                }
-            }
-
             HBITMAP hPlayer2Image = LoadBitmapResource(player2_result == 0 ? IDB_SCISSORS : player2_result == 1 ? IDB_ROCK : IDB_PAPER);
-            if (hPlayer2Image)
+
+            if (hPlayer1Image && hPlayer2Image)
             {
-                HBITMAP hOldBitmap = (HBITMAP)m_player2_result.SendMessage(STM_SETIMAGE, (WPARAM)IMAGE_BITMAP, (LPARAM)hPlayer2Image);
-                if (hOldBitmap)
-                {
-                    DeleteObject(hOldBitmap);  // 이전 비트맵 핸들 해제
-                }
+                // Player 1
+                ScaleAndSetBitmap(m_player1_result, hPlayer1Image);
+
+                // Player 2
+                ScaleAndSetBitmap(m_player2_result, hPlayer2Image);
             }
 
             // 승자 판단
@@ -184,6 +175,16 @@ void Game::OnTimer(UINT_PTR nIDEvent)
         }
     }
 
+    // 2초 후에 Winner 다이얼로그 표시
+    if (nIDEvent == 2)  
+    {
+        KillTimer(2);  // 타이머 종료
+
+        Winner dlgWinner;
+        dlgWinner.SetWinnerText(m_winnerText); // Winner 다이얼로그에 결과 전달
+        dlgWinner.DoModal();
+    }
+
     CDialogEx::OnTimer(nIDEvent);
 }
 
@@ -197,16 +198,36 @@ HBITMAP Game::LoadBitmapResource(UINT resourceID)
     return hBitmap;
 }
 
-// 가위바위보 결과 텍스트 변환
-CString Game::GetResultText(int result)
+void Game::ScaleAndSetBitmap(CStatic& control, HBITMAP hBitmap)
 {
-    switch (result)
-    {
-    case 0: return _T("Scissors");
-    case 1: return _T("Rock");
-    case 2: return _T("Paper");
-    default: return _T("");
-    }
+    // 컨트롤의 크기 얻기
+    CRect rect;
+    control.GetClientRect(&rect);
+
+    // 메모리 DC 생성
+    CDC dcMemory;
+    dcMemory.CreateCompatibleDC(NULL);
+
+    // 비트맵 선택
+    HBITMAP hOldBitmap = (HBITMAP)dcMemory.SelectObject(hBitmap);
+
+    // 비트맵 정보 얻기
+    BITMAP bitmap;
+    ::GetObject(hBitmap, sizeof(BITMAP), &bitmap);
+
+    // 실제 스케일링을 위해 DC 생성
+    CDC* pDC = control.GetDC();
+
+    // StretchBlt로 이미지를 스케일링하여 컨트롤에 맞춤
+    pDC->StretchBlt(0, 0, rect.Width(), rect.Height(),
+        &dcMemory, 0, 0, bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
+
+    // Release DC 및 이전 비트맵으로 복구
+    dcMemory.SelectObject(hOldBitmap);
+    control.ReleaseDC(pDC);
+
+    // 비트맵 핸들 해제
+    DeleteObject(hBitmap);
 }
 
 // 최종 승자를 확인
@@ -226,17 +247,9 @@ void Game::CheckWinner()
         winnerText = _T("It's a Draw!");
     }
 
-    // Winner 다이얼로그로 전환 (가상의 WinnerDlg 사용)
-    Winner dlgWinner;
-    dlgWinner.SetWinnerText(winnerText);  // Winner 다이얼로그에 결과 전달
+    m_winnerText = winnerText;
 
-    dlgWinner.DoModal();
-    Game dlgGame;
+    // 2초 타이머 설정
+    SetTimer(2, 2000, nullptr);
 }
 
-
-
-//void Game::OnStnClickedPlayer2Result()
-//{
-    // TODO: Add your control notification handler code here
-//}

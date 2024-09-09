@@ -214,13 +214,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="PAPER.bmp" />
-    <Image Include="paper.png" />
-    <Image Include="res\bitmap1.bmp" />
     <Image Include="res\MFCApplication13.ico" />
     <Image Include="ROCK.bmp" />
-    <Image Include="rock.png" />
     <Image Include="SCISSORS.bmp" />
-    <Image Include="scissors.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
