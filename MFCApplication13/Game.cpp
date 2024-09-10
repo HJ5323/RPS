@@ -40,6 +40,9 @@ void Game::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(Game, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON1, &Game::OnBnClickedButton1)
     ON_WM_TIMER()
+    ON_STN_CLICKED(IDC_ROUND, &Game::OnStnClickedRound)
+    ON_STN_CLICKED(IDC_player2, &Game::OnStnClickedplayer2)
+    ON_STN_CLICKED(IDC_PLAYER2_SCORE, &Game::OnStnClickedPlayer2Score)
 END_MESSAGE_MAP()
 
 
@@ -49,12 +52,12 @@ BOOL Game::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
 
-    // 초기 글자 지움
-    m_round_ctrl.SetWindowText(L"");
-    m_timer_ctrl.SetWindowText(L"");
-    m_player1_score_ctrl.SetWindowText(L"");
-    m_player2_score_ctrl.SetWindowText(L"");
-    m_round_result.SetWindowText(L"");
+    // 초기 설정 : 라운드 1, 타이머 5, 점수 0, 승패 숨김
+    m_round_ctrl.SetWindowTextW(_T("1"));
+    m_timer_ctrl.SetWindowTextW(_T("5"));
+    m_player1_score_ctrl.SetWindowTextW(_T("0"));
+    m_player2_score_ctrl.SetWindowTextW(_T("0"));
+    m_round_result.SetWindowTextW(_T(""));
 
     // 전달받은 텍스트를 static text에 표시
     SetDlgItemText(IDC_player1, m_player1_name);
@@ -114,18 +117,11 @@ void Game::OnTimer(UINT_PTR nIDEvent)
             int player1_result = rand() % 3;  // 0: 가위, 1: 바위, 2: 보
             int player2_result = rand() % 3;
 
-            // Player 1과 Player 2의 이미지 설정
+            // 결과 이미지 설정
             HBITMAP hPlayer1Image = LoadBitmapResource(player1_result == 0 ? IDB_SCISSORS : player1_result == 1 ? IDB_ROCK : IDB_PAPER);
             HBITMAP hPlayer2Image = LoadBitmapResource(player2_result == 0 ? IDB_SCISSORS : player2_result == 1 ? IDB_ROCK : IDB_PAPER);
-
-            if (hPlayer1Image && hPlayer2Image)
-            {
-                // Player 1
-                ScaleAndSetBitmap(m_player1_result, hPlayer1Image);
-
-                // Player 2
-                ScaleAndSetBitmap(m_player2_result, hPlayer2Image);
-            }
+            ScaleAndSetBitmap(m_player1_result, hPlayer1Image); // 컴퓨터
+            ScaleAndSetBitmap(m_player2_result, hPlayer2Image); // 플레이어
 
             // 승자 판단
             if ((player1_result == 0 && player2_result == 2) ||  // 가위 vs 보
@@ -135,14 +131,20 @@ void Game::OnTimer(UINT_PTR nIDEvent)
                 m_player1_score++;
                 m_round_result.SetWindowTextW(m_player1_name + _T(" Wins!"));
             }
-            else if (player1_result == player2_result)
-            {
-                m_round_result.SetWindowTextW(_T("Draw!"));
-            }
-            else
+            else if ((player2_result == 0 && player1_result == 2) ||
+                     (player2_result == 1 && player1_result == 0) ||
+                     (player2_result == 2 && player1_result == 1))
             {
                 m_player2_score++;
                 m_round_result.SetWindowTextW(m_player2_name + _T(" Wins!"));
+            }
+            else
+            {
+                m_round_result.SetWindowTextW(_T("Draw!"));
+                
+                // 비겼을 경우, 해당 라운드를 반복
+                m_nTimerID = SetTimer(1, 1000, nullptr);
+                return;
             }
 
             // 점수 업데이트
@@ -152,9 +154,14 @@ void Game::OnTimer(UINT_PTR nIDEvent)
             m_player1_score_ctrl.SetWindowTextW(player1ScoreText);
             m_player2_score_ctrl.SetWindowTextW(player2ScoreText);
 
-            // 다음 라운드 설정
-            if (m_round < 3)
+            // 3승 체크
+            if (m_player1_score == 3 || m_player2_score == 3)
             {
+                CheckWinner(); // 3승을 한 경우 최종 승자 확인
+            }
+            else
+            {
+                // 다음 라운드 진행
                 m_round++;
                 CString roundText;
                 roundText.Format(_T("%d"), m_round);
@@ -162,11 +169,6 @@ void Game::OnTimer(UINT_PTR nIDEvent)
 
                 // 타이머 재시작
                 m_nTimerID = SetTimer(1, 1000, nullptr);
-            }
-            else
-            {
-                // 게임 종료 후 최종 승자 확인
-                CheckWinner();
             }
         }
         else
@@ -253,3 +255,21 @@ void Game::CheckWinner()
     SetTimer(2, 2000, nullptr);
 }
 
+
+
+void Game::OnStnClickedRound()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void Game::OnStnClickedplayer2()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void Game::OnStnClickedPlayer2Score()
+{
+    // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
