@@ -24,6 +24,7 @@ GameRule::~GameRule()
 void GameRule::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDOK, title);
 }
 
 
@@ -31,8 +32,6 @@ BEGIN_MESSAGE_MAP(GameRule, CDialogEx)
 	ON_BN_CLICKED(IDOK, &GameRule::OnBnClickedOk)
 END_MESSAGE_MAP()
 
-
-// GameRule 메시지 처리기
 
 
 void GameRule::OnBnClickedOk()
