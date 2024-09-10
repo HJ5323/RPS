@@ -27,8 +27,8 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	int m_round;  // 현재 라운드
-	int m_player1_score;  // Player1의 스코어
-	int m_player2_score;  // Player2의 스코어
+	int m_player1_score;  // Player1의 스코어 (Computer)
+	int m_player2_score;  // Player2의 스코어 (User)
 	CString m_player1_name;  // Player1의 이름
 	CString	m_player2_name;  // Player2의 이름
 	CButton m_start;  // 게임시작 버튼
@@ -45,4 +45,7 @@ public:
 	void CheckWinner();
 	HBITMAP LoadBitmapResource(UINT resourceID);  // 비트맵 로드
 	void ScaleAndSetBitmap(CStatic& control, HBITMAP hBitmap);  // 비트맵 컨트롤 크기에 맞추는 함수
+	afx_msg void OnStnClickedRound();
+	afx_msg void OnStnClickedplayer2();
+	afx_msg void OnStnClickedPlayer2Score();
 };

@@ -23,5 +23,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButton1();
-	CString m_Input1, m_Input2; //닉네임
+	CString m_Input1, m_Input2; // 닉네임
+	afx_msg void OnEnChangeEdit3();
+	afx_msg void OnEnChangeEdit2();
 };
