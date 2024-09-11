@@ -24,7 +24,6 @@ GameRule::~GameRule()
 void GameRule::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDOK, title);
 }
 
 
@@ -32,7 +31,18 @@ BEGIN_MESSAGE_MAP(GameRule, CDialogEx)
 	ON_BN_CLICKED(IDOK, &GameRule::OnBnClickedOk)
 END_MESSAGE_MAP()
 
+BOOL GameRule::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
 
+	// 원하는 크기의 글꼴 설정
+	font.CreatePointFont(250, _T("Arial"));
+
+	// Static Text 또는 다른 컨트롤에 글꼴 적용
+	GetDlgItem(IDC_STATIC_RULE)->SetFont(&font);
+
+	return TRUE;
+}
 
 void GameRule::OnBnClickedOk()
 {

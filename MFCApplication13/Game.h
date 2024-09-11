@@ -24,6 +24,9 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	afx_msg void OnBnClickedButton1();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);  // 타이머 이벤트 처리
+
+	CFont font1, font2, font3;
+
 	DECLARE_MESSAGE_MAP()
 public:
 	int m_round;  // 현재 라운드
@@ -42,10 +45,16 @@ public:
 	CString m_winnerText;  // winner 저장할 멤버 변수
 	UINT_PTR m_nTimerID;  // 타이머 ID
 
+	void ResetGame(); // 게임 초기화
+
 	void CheckWinner();
 	HBITMAP LoadBitmapResource(UINT resourceID);  // 비트맵 로드
 	void ScaleAndSetBitmap(CStatic& control, HBITMAP hBitmap);  // 비트맵 컨트롤 크기에 맞추는 함수
 	afx_msg void OnStnClickedRound();
 	afx_msg void OnStnClickedplayer2();
 	afx_msg void OnStnClickedPlayer2Score();
+	afx_msg void OnStnClickedRoundScore();
+	afx_msg void OnStnClickedStaticTime();
+	afx_msg void OnStnClickedTimer();
+	afx_msg void OnStnClickedPlayer1Score1();
 };

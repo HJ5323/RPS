@@ -215,7 +215,11 @@
     <None Include="res\MFCApplication13.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\question_mark.bmp" />
+    <Image Include="..\..\question_mark.png" />
     <Image Include="PAPER.bmp" />
+    <Image Include="res\bitmap1.bmp" />
+    <Image Include="res\bitmap2.bmp" />
     <Image Include="res\MFCApplication13.ico" />
     <Image Include="ROCK.bmp" />
     <Image Include="SCISSORS.bmp" />

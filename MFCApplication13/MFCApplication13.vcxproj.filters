@@ -92,5 +92,17 @@
     <Image Include="SCISSORS.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\..\question_mark.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\..\question_mark.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
