@@ -35,8 +35,13 @@ BEGIN_MESSAGE_MAP(Name, CDialogEx)
 	ON_EN_CHANGE(IDC_EDIT2, &Name::OnEnChangeEdit2)
 END_MESSAGE_MAP()
 
+BOOL Name::OnInitDialog()
+{
 
-// Name message handlers
+
+
+	return TRUE;
+}
 
 
 void Name::OnBnClickedButton1()
