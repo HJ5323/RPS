@@ -29,6 +29,8 @@ void Winner::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(Winner, CDialogEx)
+    ON_STN_CLICKED(IDC_WINNER_STATIC, &Winner::OnStnClickedWinnerStatic)
+    ON_BN_CLICKED(IDC_BUTTON1, &Winner::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -37,6 +39,12 @@ END_MESSAGE_MAP()
 BOOL Winner::OnInitDialog()
 {
     CDialogEx::OnInitDialog();
+
+    // 원하는 크기의 글꼴 설정
+    font.CreatePointFont(250, _T("Arial"));
+
+    // Static Text 또는 다른 컨트롤에 글꼴 적용
+    GetDlgItem(IDC_WINNER_STATIC)->SetFont(&font);
 
     // Edit Control에 텍스트 설정
     m_winnerStaticCtrl.SetWindowTextW(m_winnerText);
@@ -47,4 +55,16 @@ BOOL Winner::OnInitDialog()
 void Winner::SetWinnerText(CString winnerText)
 {
 	m_winnerText = winnerText;
+}
+
+
+void Winner::OnStnClickedWinnerStatic()
+{
+
+}
+
+
+void Winner::OnBnClickedButton1()
+{
+    EndDialog(IDOK);
 }

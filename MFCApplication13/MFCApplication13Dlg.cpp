@@ -160,7 +160,9 @@ HCURSOR CMFCApplication13Dlg::OnQueryDragIcon()
 
 void CMFCApplication13Dlg::OnBnClickedButton1()
 {
-	// TODO: Add your control notification handler code here
+	// 다이얼로그 종료
+	EndDialog(IDOK);
+
 	Name dlg;
 	dlg.DoModal();
 }

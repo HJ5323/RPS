@@ -37,7 +37,12 @@ END_MESSAGE_MAP()
 
 BOOL Name::OnInitDialog()
 {
+	CDialogEx::OnInitDialog();
 
+	// 원하는 크기의 글꼴 설정
+	font.CreatePointFont(150, _T("Arial"));
+
+	GetDlgItem(IDC_STATIC_NAME)->SetFont(&font);
 
 
 	return TRUE;
@@ -59,11 +64,15 @@ void Name::OnBnClickedButton1()
 
 		if (dlgRules.DoModal() == IDOK)
 		{
+			// Name 다이얼로그 종료
+			EndDialog(IDOK);
+
 			// Game 다이얼로그로 플레이어 이름 전달
 			Game dlgGame;
 			dlgGame.m_player1_name = "AI";
 			dlgGame.m_player2_name = m_Input2;
 			dlgGame.DoModal();
+
 		}
 	}
 }

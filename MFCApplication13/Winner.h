@@ -24,9 +24,13 @@ protected:
 	CStatic m_winnerStaticCtrl;  // Static Text 컨트롤 멤버 변수
 	CString m_winnerText;      // Winner 텍스트 저장 변수
 
-	// Generated message map functions
 	virtual BOOL OnInitDialog();
+
+	CFont font;
 
 public:
 	void SetWinnerText(CString winnerText);  // Setter 함수
+	afx_msg void OnStnClickedWinnerStatic();
+	afx_msg void OnBnClickedButton1();
+
 };
