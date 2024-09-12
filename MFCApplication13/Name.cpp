@@ -39,6 +39,10 @@ BOOL Name::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
+	// 아이콘 설정 (리소스 ID를 사용하여 아이콘 설정)
+	SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), TRUE);  // 큰 아이콘
+	SetIcon(AfxGetApp()->LoadIcon(IDR_MAINFRAME), FALSE); // 작은 아이콘
+
 	// 원하는 크기의 글꼴 설정
 	font.CreatePointFont(150, _T("Arial"));
 
@@ -77,6 +81,22 @@ void Name::OnBnClickedButton1()
 	}
 }
 
+// Enter 키 IDC_BUTTON1 호출
+BOOL Name::PreTranslateMessage(MSG* pMsg)
+{
+	// Enter 키가 눌렸을 때 처리
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN)
+	{
+		// IDC_BUTTON1 버튼의 클릭 이벤트를 발생시킴
+		OnBnClickedButton1();
+
+		// 기본 동작 방지 (다이얼로그가 닫히지 않음)
+		return TRUE;
+	}
+
+	// 나머지 기본 처리
+	return CDialog::PreTranslateMessage(pMsg);
+}
 
 void Name::OnEnChangeEdit3()
 {

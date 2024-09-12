@@ -20,7 +20,6 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	virtual BOOL OnInitDialog();
-
 	CFont font;
 
 	DECLARE_MESSAGE_MAP()
@@ -29,4 +28,5 @@ public:
 	CString m_Input1, m_Input2; // 닉네임
 	afx_msg void OnEnChangeEdit3();
 	afx_msg void OnEnChangeEdit2();
+	BOOL PreTranslateMessage(MSG* pMsg);
 };

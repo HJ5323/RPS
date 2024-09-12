@@ -81,6 +81,10 @@ BOOL Game::OnInitDialog()
     m_player2_score_ctrl.SetWindowTextW(_T("0"));
     m_round_result.SetWindowTextW(_T(""));
 
+    // 전달받은 텍스트를 static text에 표시
+    SetDlgItemText(IDC_player1, m_player1_name);
+    SetDlgItemText(IDC_player2, m_player2_name);
+
     srand(static_cast<unsigned int>(time(nullptr)));
 
     return TRUE;  // return TRUE unless you set the focus to a control
@@ -95,10 +99,6 @@ void Game::ResetGame()
     m_player1_score_ctrl.SetWindowTextW(_T("0"));
     m_player2_score_ctrl.SetWindowTextW(_T("0"));
     m_round_result.SetWindowTextW(_T(""));
-
-    // 전달받은 텍스트를 static text에 표시
-    SetDlgItemText(IDC_player1, m_player1_name);
-    SetDlgItemText(IDC_player2, m_player2_name);
 
     // 초기 값 설정
     m_round = 1;
@@ -191,7 +191,6 @@ void Game::OnTimer(UINT_PTR nIDEvent)
             m_player1_score_ctrl.SetWindowTextW(player1ScoreText);
             m_player2_score_ctrl.SetWindowTextW(player2ScoreText);
 
-
             // 3승 체크
             if (m_player1_score == 3 || m_player2_score == 3)
             {
@@ -208,6 +207,7 @@ void Game::OnTimer(UINT_PTR nIDEvent)
                 // 타이머 재시작
                 m_nTimerID = SetTimer(1, 1000, nullptr);
             }
+
         }
         else
         {
@@ -219,6 +219,9 @@ void Game::OnTimer(UINT_PTR nIDEvent)
     if (nIDEvent == 2)  
     {
         KillTimer(2);  // 타이머 종료
+
+        // Game 다이얼로그 종료
+        EndDialog(IDOK);
 
         Winner dlgWinner;
         dlgWinner.SetWinnerText(m_winnerText); // Winner 다이얼로그에 결과 전달
@@ -277,11 +280,11 @@ void Game::CheckWinner()
     CString winnerText;
     if (m_player1_score > m_player2_score)
     {
-        winnerText.Format(_T("Winner: %s"), m_player1_name);
+        winnerText.Format(_T("Winner\n%s"), m_player1_name);
     }
     else if (m_player1_score < m_player2_score)
     {
-        winnerText.Format(_T("Winner: %s"), m_player2_name);
+        winnerText.Format(_T("Winner\n%s"), m_player2_name);
     }
     else
     {
@@ -290,13 +293,8 @@ void Game::CheckWinner()
 
     m_winnerText = winnerText;
 
-    // 승자 다이얼로그 표시
-    Winner dlgWinner;
-    dlgWinner.SetWinnerText(m_winnerText); // Winner 다이얼로그에 결과 전달
-    dlgWinner.DoModal();
-
-    // 게임 시작 버튼 다시 보이게 하기
-    GetDlgItem(IDC_BUTTON1)->ShowWindow(SW_SHOW);
+    // 2초 타이머 설정
+    SetTimer(2, 2000, nullptr);
 }
 
 void Game::OnStnClickedRound()
